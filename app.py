@@ -8,8 +8,15 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Use environment variable for secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # Set database URI from environment variable
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
+# Ensure that the DATABASE_URL environment variable is set
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL is None:
+    raise ValueError("No DATABASE_URL set for Flask application")
+
+# Configure the SQLAlchemy part of the app instance
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)  # Initialize SQLAlchemy instance
 
 # Define SQLAlchemy models for users and applications
