@@ -30,9 +30,9 @@ def login():
         password = request.form['password']
         user = get_user_by_name(username)
 
-        if user and check_password_hash(user[2], password):
-            session['user_id'] = user[0]
-            session['username'] = user[1]
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
             return redirect(url_for('home'))
         else:
             flash('Invalid credentials. Please try again.')
