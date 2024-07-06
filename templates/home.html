@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>aptrak | home</title>
+</head>
+<body>
+
+    <nav>
+        <h1><a href="{{ url_for('home') }}">aptrak</a></h1>
+        <p><a href="{{ url_for('logout') }}">Logout</a></p>
+    </nav>
+    <main>
+    <h2>Welcome, {{ username }}</h2>
+    
+    
+
+    
+    <div class="container">
+        <button class="toggle-button" onclick="toggleForm()">Add Application</button>
+        <button class="toggle-button toggle-button2" onclick="toggleForm2()">Add Application By Link</button>
+        <div class="form-container" id="formContainer">
+          <h2>Add Applications</h2>
+          <form method="post">
+            <div>
+              <label for="position">Position</label>
+              <input type="text" name="position" id="position" required>
+            </div>
+            <div>
+              <label for="company">Company</label>
+              <input type="text" name="company" id="company" required>
+            </div>
+            <div>
+              <label for="status">Status</label>
+              <select name="status" id="status">
+                <option value="Saved">Saved</option>
+                <option value="Applied">Applied</option>
+                <option value="In Contact">In Contact</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Hired">Hired</option>
+              </select>
+            </div>
+            <div>
+              <label for="link">Link</label>
+              <input type="text" name="link" id="link">
+            </div>
+            <button type="submit">Add</button>
+          </form>
+        </div>
+
+
+        <div class="form-container" id="formContainer2">
+            <h2>Add Application By Link</h2>
+            <h4>Only supports LinkedIn</h4>
+            <form action="/scrape" method="post">
+                <div>
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                      <option value="Saved">Saved</option>
+                      <option value="Applied">Applied</option>
+                      <option value="In Contact">In Contact</option>
+                      <option value="Rejected">Rejected</option>
+                      <option value="Hired">Hired</option>
+                    </select>
+                  </div>
+              <div>
+                <label for="url">Link</label>
+                <input type="text" name="url" id="url">
+              </div>
+              <button type="submit">Add</button>
+            </form>
+        </div>
+      </div>
+
+
+    <h2>Applications</h2>
+
+    <div class="apps">
+
+        <div class="section saved">
+            <h3 class="sec-title" id="saved">Saved</h3>
+            <ul>
+            {% for app in apps %}
+            {% if app[4] == "Saved" %}
+                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+                    
+                    <h4 class="card__title">{{ app[2] }}</h4>
+                    <h4 class="card__content"> {{ app[3] }}</h4>
+                    
+                    <select class="status-dropdown" data-id="{{ app[0] }}" onclick="event.stopPropagation()">
+                        <option value="Saved" {% if app[4] == 'Saved' %} selected {% endif %} >Saved</option>
+                        <option value="Applied" {% if app[4] == 'Applied' %}selected{% endif %}>Applied</option>
+                        <option value="In Contact" {% if app[4] == 'In Contact' %}selected{% endif %}>In Contact</option>
+                        <option value="Hired" {% if app[4] == 'Hired' %}selected{% endif %}>Hired</option>
+                        <option value="Rejected" {% if app[4] == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                    <p><a class="link" href="{{ app[6] }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
+                    <h4 class="card__date">{{ app[5] }}</h4>
+                    <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                </li>
+
+                    
+            {% endif %}   
+            {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="section applied">
+            <h3 class="sec-title" id="applied">Applied</h3>
+            <ul>
+            {% for app in apps %}
+            {% if app[4] == "Applied" %}
+                
+                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+                        
+                    <h4 class="card__title">{{ app[2] }}</h4>
+                    <h4 class="card__content"> {{ app[3] }}</h4>
+                    
+                    <select class="status-dropdown" data-id="{{ app[0] }}" onclick="event.stopPropagation()">
+                        <option value="Saved" {% if app[4] == 'Saved' %} selected {% endif %} >Saved</option>
+                        <option value="Applied" {% if app[4] == 'Applied' %}selected{% endif %}>Applied</option>
+                        <option value="In Contact" {% if app[4] == 'In Contact' %}selected{% endif %}>In Contact</option>
+                        <option value="Hired" {% if app[4] == 'Hired' %}selected{% endif %}>Hired</option>
+                        <option value="Rejected" {% if app[4] == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                    <p><a class="link" href="{{ app[6] }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
+                    <h4 class="card__date">{{ app[5] }}</h4>
+                    <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                </li>
+
+                    
+            {% endif %}   
+            {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="section incontact">
+            <h3 class="sec-title" id="incontact">In Contact</h3>
+            <ul>
+            {% for app in apps %}
+            {% if app[4] == "In Contact" %}
+                
+                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+                        
+                    <h4 class="card__title">{{ app[2] }}</h4>
+                    <h4 class="card__content"> {{ app[3] }}</h4>
+                    
+                    <select class="status-dropdown" data-id="{{ app[0] }}" onclick="event.stopPropagation()">
+                        <option value="Saved" {% if app[4] == 'Saved' %} selected {% endif %} >Saved</option>
+                        <option value="Applied" {% if app[4] == 'Applied' %}selected{% endif %}>Applied</option>
+                        <option value="In Contact" {% if app[4] == 'In Contact' %}selected{% endif %}>In Contact</option>
+                        <option value="Hired" {% if app[4] == 'Hired' %}selected{% endif %}>Hired</option>
+                        <option value="Rejected" {% if app[4] == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                    <p><a class="link" href="{{ app[6] }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
+                    <h4 class="card__date">{{ app[5] }}</h4>
+                    <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                </li>
+
+                    
+            {% endif %}   
+            {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="section hired">
+            <h3 class="sec-title" id="hired">Hired</h3>
+            <ul>
+            {% for app in apps %}
+            {% if app[4] == "Hired" %}
+                
+                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+                        
+                    <h4 class="card__title">{{ app[2] }}</h4>
+                    <h4 class="card__content"> {{ app[3] }}</h4>
+                    
+                    <select class="status-dropdown" data-id="{{ app[0] }}" onclick="event.stopPropagation()">
+                        <option value="Saved" {% if app[4] == 'Saved' %} selected {% endif %} >Saved</option>
+                        <option value="Applied" {% if app[4] == 'Applied' %}selected{% endif %}>Applied</option>
+                        <option value="In Contact" {% if app[4] == 'In Contact' %}selected{% endif %}>In Contact</option>
+                        <option value="Hired" {% if app[4] == 'Hired' %}selected{% endif %}>Hired</option>
+                        <option value="Rejected" {% if app[4] == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                    <p><a class="link" href="{{ app[6] }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
+                    <h4 class="card__date">{{ app[5] }}</h4>
+                    <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                </li>
+
+                 
+            {% endif %}   
+            {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="section rejected">
+            <h3 class="sec-title" id="rejected">Rejected</h3>
+            <ul>
+            {% for app in apps %}
+            {% if app[4] == "Rejected" %}
+                
+                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+                        
+                    <h4 class="card__title">{{ app[2] }}</h4>
+                    <h4 class="card__content"> {{ app[3] }}</h4>
+                    
+                    <select class="status-dropdown" data-id="{{ app[0] }}" onclick="event.stopPropagation()">
+                        <option value="Saved" {% if app[4] == 'Saved' %} selected {% endif %} >Saved</option>
+                        <option value="Applied" {% if app[4] == 'Applied' %}selected{% endif %}>Applied</option>
+                        <option value="In Contact" {% if app[4] == 'In Contact' %}selected{% endif %}>In Contact</option>
+                        <option value="Hired" {% if app[4] == 'Hired' %}selected{% endif %}>Hired</option>
+                        <option value="Rejected" {% if app[4] == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                    <p><a class="link" href="{{ app[6] }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
+                    <h4 class="card__date">{{ app[5] }}</h4>
+                    <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                </li>
+
+                    
+            {% endif %}   
+            {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+    </main>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/script.js"></script>
+    
+</body>
+</html>
