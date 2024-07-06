@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask_sqlalchemy import SQLAlchemy
 from db import add_user, get_user_by_name, add_application, get_applications_by_user, get_application_by_id, delete_application_by_id, update_application_by_id
 from werkzeug.security import check_password_hash
 import requests
@@ -6,6 +7,7 @@ from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.secret_key = 'secret'
+db = SQLAlchemy(app)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -44,7 +46,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'PO`ST'])
 def home():
     if request.method == 'POST':
         position = request.form['position']
@@ -114,6 +116,6 @@ def scrape():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
   

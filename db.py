@@ -2,11 +2,22 @@ import sqlite3
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from urllib.parse import urlparse
+import psycopg2
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
 def connect_db():
-    return sqlite3.connect(DATABASE_URL)
+    url = urlparse(DATABASE_URL)
+    conn = psycopg2.connect(
+            database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
+    return conn
+
 
 def add_user(username, password, email):
     connection = connect_db()
@@ -68,35 +79,35 @@ def update_application_by_id(application_id, user_id, field, value):
     connection.close()
 
 def create_db():
-    connection = sqlite3.connect('job_tracker.db')
+    connection = create_db()
     cursor = connection.cursor()
 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100) NOT NULL UNIQUE,
+        password VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE
     )
     ''')
 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS applications (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        job_title TEXT NOT NULL,
-        company TEXT NOT NULL,
-        status TEXT NOT NULL,
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        job_title VARCHAR(255) NOT NULL,
+        company VARCHAR(255) NOT NULL,
+        status VARCHAR(50) NOT NULL,
         applied_on DATE NOT NULL,
         link TEXT,
-        description MEDIUMTEXT,
-        notes MEDIUMTEXT,
-        FOREIGN KEY (user_id) REFERENCES users (id)
+        description TEXT,
+        notes TEXT
     )
     ''')
 
     connection.commit()
     connection.close()
 
-create_db()
+if __name__ == '__main__':
+    create_db()
 
