@@ -1,21 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from db import add_user, get_user_by_name, add_application, get_applications_by_user, get_application_by_id, delete_application_by_id, update_application_by_id
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from urllib.parse import urlparse
-from datetime import datetime
 import os
+from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'secret'
+app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Use environment variable for secret key
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # Set database URI from environment variable
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
+db = SQLAlchemy(app)  # Initialize SQLAlchemy instance
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracker
-
-db = SQLAlchemy(app)
-
-# Define SQLAlchemy models
+# Define SQLAlchemy models for users and applications
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -28,12 +25,12 @@ class Application(db.Model):
     job_title = db.Column(db.String(255), nullable=False)
     company = db.Column(db.String(255), nullable=False)
     status = db.Column(db.String(50), nullable=False)
-    applied_on = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    applied_on = db.Column(db.Date, nullable=False)
     link = db.Column(db.Text)
     description = db.Column(db.Text)
     notes = db.Column(db.Text)
 
-    user = db.relationship('User', backref=db.backref('applications', lazy=True))
+# Routes
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -41,12 +38,15 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        existing_user = get_user_by_name(username)
+        existing_user = User.query.filter_by(username=username).first()
 
         if existing_user:
             flash('Username already exists.')
         else:
-            add_user(username, password, email)
+            hashed_pwd = generate_password_hash(password, method='pbkdf2:sha256')
+            new_user = User(username=username, password=hashed_pwd, email=email)
+            db.session.add(new_user)
+            db.session.commit()
             flash('Signup successful! Please login')
             return redirect(url_for('login'))
     return render_template('signup.html')
@@ -56,11 +56,11 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = get_user_by_name(username)
+        user = User.query.filter_by(username=username).first()
 
-        if user and check_password_hash(user[2], password):
-            session['user_id'] = user[0]
-            session['username'] = user[1]
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
             return redirect(url_for('home'))
         else:
             flash('Invalid credentials. Please try again.')
@@ -72,32 +72,58 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-@app.route('/', methods=['GET', 'PO`ST'])
+@app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         position = request.form['position']
         company = request.form['company']
         status = request.form['status']
         link = request.form['link']
-        add_application(session['user_id'], position, company, status, link)
-        apps = get_applications_by_user(session['user_id'])
+        
+        # Ensure user is logged in
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        
+        # Create a new application record
+        new_application = Application(
+            user_id=session['user_id'],
+            job_title=position,
+            company=company,
+            status=status,
+            applied_on=datetime.now().date(),
+            link=link
+        )
+        
+        db.session.add(new_application)
+        db.session.commit()
+        
+        apps = Application.query.filter_by(user_id=session['user_id']).all()
         return render_template('home.html', username=session['username'], apps=apps)
+    
     if 'user_id' in session:
-        apps = get_applications_by_user(session['user_id'])
+        apps = Application.query.filter_by(user_id=session['user_id']).all()
         return render_template('home.html', username=session['username'], apps=apps)
     else:
         return redirect(url_for('login'))
     
 @app.route('/application/<int:application_id>')
 def application(application_id):
-    application = get_application_by_id(application_id)
-    if application and application[1] == session['user_id']:
+    application = Application.query.filter_by(id=application_id, user_id=session['user_id']).first()
+    if application:
         return render_template('application.html', application=application)
+    else:
+        flash('Application not found or unauthorized access.')
+        return redirect(url_for('home'))
     
 @app.route('/delete/<int:application_id>')
 def delete(application_id):
-    delete_application_by_id(application_id, session['user_id'])
-    flash('Application deleted successfully')
+    application = Application.query.filter_by(id=application_id, user_id=session['user_id']).first()
+    if application:
+        db.session.delete(application)
+        db.session.commit()
+        flash('Application deleted successfully')
+    else:
+        flash('Application not found or unauthorized access.')
     return redirect(url_for('home'))
     
 @app.route('/update/<int:application_id>', methods=['POST'])
@@ -107,7 +133,14 @@ def update_status(application_id):
 
     new_val = request.form['value']
     field = request.form['field']
-    update_application_by_id(application_id, session['user_id'], field, new_val)
+    
+    application = Application.query.filter_by(id=application_id, user_id=session['user_id']).first()
+    if not application:
+        return jsonify({'error': 'Application not found or unauthorized access'}), 404
+    
+    setattr(application, field, new_val)
+    db.session.commit()
+    
     return jsonify({'message': 'Status updated successfully'})
 
 
@@ -136,12 +169,23 @@ def scrape():
 
     status = request.form['status']
     link = linkedinurl
-    add_application(session['user_id'], position, company, status, link, description)
-    apps = get_applications_by_user(session['user_id'])
+    
+    new_application = Application(
+        user_id=session['user_id'],
+        job_title=position,
+        company=company,
+        status=status,
+        applied_on=datetime.now().date(),
+        link=link,
+        description=description
+    )
+    
+    db.session.add(new_application)
+    db.session.commit()
+    
+    apps = Application.query.filter_by(user_id=session['user_id']).all()
     return render_template('home.html', username=session['username'], apps=apps)
 
 
 if __name__ == '__main__':
-    app.run()
-
-  
+    app.run(debug=True)
