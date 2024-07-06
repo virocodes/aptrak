@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aptrak | {{ application[2] }}</title>
+    <title>aptrak | {{ application.job_title }}</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://kit.fontawesome.com/eb1dd04dd5.js" crossorigin="anonymous"></script>
 </head>
@@ -17,46 +17,46 @@
     <main class="app-page">
     
     <div class="editable"> 
-        <h1 id="job_title">{{ application[2] }}
+        <h1 id="job_title">{{ application.job_title }}
           <span class="edit-icon fas fa-edit" id="edit-job_title" onclick="editField('job_title')"></span>
         </h1>
-        <input type="text" id="job_title-input" class="hidden" value="{{ application[2] }}">
-        <span class="save-icon hidden" id="save-job_title" onclick="saveField('job_title', '{{ application[0] }}')">&#10004;</span>
+        <input type="text" id="job_title-input" class="hidden" value="{{ application.job_title }}">
+        <span class="save-icon hidden" id="save-job_title" onclick="saveField('job_title', '{{ application.id }}')">&#10004;</span>
     </div>
     <div class="editable">
-        <h2 id="company">{{ application[3] }}
+        <h2 id="company">{{ application.company }}
           <span class="edit-icon fas fa-edit" id="edit-company" onclick="editField('company')"></span>
         </h2>
-        <input type="text" id="company-input" class="hidden" value="{{ application[3] }}">
-        <span class="save-icon hidden" id="save-company" onclick="saveField('company', '{{ application[0] }}')">&#10004;</span>
+        <input type="text" id="company-input" class="hidden" value="{{ application.company }}">
+        <span class="save-icon hidden" id="save-company" onclick="saveField('company', '{{ application.id }}')">&#10004;</span>
     </div>
-    <select class="status-dropdown app-dropdown" data-id="{{ application[0] }}">
-        <option value="Saved" {% if application[4] == 'Saved' %} selected {% endif %} >Saved</option>
-        <option value="Applied" {% if application[4] == 'Applied' %}selected{% endif %}>Applied</option>
-        <option value="In Contact" {% if application[4] == 'In Contact' %}selected{% endif %}>In Contact</option>
-        <option value="Hired" {% if application[4] == 'Hired' %}selected{% endif %}>Hired</option>
-        <option value="Rejected" {% if application[4] == 'Rejected' %}selected{% endif %}>Rejected</option>
+    <select class="status-dropdown app-dropdown" data-id="{{ application.id }}">
+        <option value="Saved" {% if application.status == 'Saved' %} selected {% endif %} >Saved</option>
+        <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
+        <option value="In Contact" {% if application.status == 'In Contact' %}selected{% endif %}>In Contact</option>
+        <option value="Hired" {% if application.status == 'Hired' %}selected{% endif %}>Hired</option>
+        <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
     </select>
-    <h4>{{ application[5] }}</h4>
-    <a href="{{ application[6] }}" target="_blank">Link</a>
+    <h4>{{ application.applied_on }}</h4>
+    <a href="{{ application.link }}" target="_blank">Link</a>
 
 
     <h2>Description
         <span class="edit-icon fas fa-edit" id="edit-description" onclick="editField('description')"></span>
-        <span class="save-icon hidden" id="save-description" onclick="saveField('description', '{{ application[0] }}')">&#10004;</span>
+        <span class="save-icon hidden" id="save-description" onclick="saveField('description', '{{ application.id }}')">&#10004;</span>
     </h2>
     <div>
-        <p id="description">{{ application[7].replace('\n', '<br>')|safe }}</p>
-        <textarea id="description-input" class="hidden">{{ application[7] }}</textarea>    
+        <p id="description">{{ application.description.replace('\n', '<br>')|safe }}</p>
+        <textarea id="description-input" class="hidden">{{ application.description }}</textarea>    
     </div>
     
     <h2>Notes
         <span class="edit-icon fas fa-edit" id="edit-notes" onclick="editField('notes')"></span>
-        <span class="save-icon hidden" id="save-notes" onclick="saveField('notes', '{{ application[0] }}')">&#10004;</span>
+        <span class="save-icon hidden" id="save-notes" onclick="saveField('notes', '{{ application.id }}')">&#10004;</span>
     </h2>
     <div>
-        <p id="notes">{% if application[8] %} {{ application[8].replace('\n', '<br>')|safe }} {% else %}  Notes... {% endif %}</p>
-        <textarea id="notes-input" class="hidden"> {{application[8]}} </textarea>
+        <p id="notes">{% if application.notes %} {{ application.notes.replace('\n', '<br>')|safe }} {% else %}  Notes... {% endif %}</p>
+        <textarea id="notes-input" class="hidden"> {{application.notes}} </textarea>
     </div>
 
     <a id="delete" href="{{ url_for('delete', application_id=application[0]) }}">Delete</a>
