@@ -63,7 +63,7 @@ def home():
 @app.route('/application/<int:application_id>')
 def application(application_id):
     application = get_application_by_id(application_id)
-    if application and application[1] == session['user_id']:
+    if application and application.user_id == session['user_id']:
         return render_template('application.html', application=application)
     
 @app.route('/delete/<int:application_id>')
