@@ -1,0 +1,507 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0px;
+    background-color: #EDEDED;
+    color: #333333;
+}
+
+button {
+  font-family: 'Lato', sans-serif;
+}
+
+main {
+    margin: 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    align-items: center;
+    padding-right: 5px;
+}
+
+
+nav > h1 > a{
+    margin-left: 15px;
+    font-size: 30px;
+    color: #007BFF !important;
+}
+
+nav > p > a {
+    margin-right: 10px;
+    color:#007BFF !important;
+}
+
+.apps {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 3%;
+}
+
+.sec-title {
+  border-bottom: 2.5px solid;
+  width: fit-content;
+}
+
+#saved {
+  border-color: #B0B0B0;
+}
+
+#applied {
+  border-color: #FFD700;
+}
+
+#incontact {
+  border-color: #1E90FF;
+}
+
+#hired {
+  border-color: #32CD32;
+}
+
+#rejected {
+  border-color: #FF4500;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+li {
+    width: 100%;
+}
+
+.section {
+    width: 17%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+
+.card {
+    --border-radius: 0.3rem;
+    font-family: "Arial";
+    padding: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.3rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    background: #f7f7f7;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    border: 2px solid transparent;
+    border-top: 4px solid;
+    position: relative;
+  }
+
+  .link {
+    color: #007BFF;
+  }
+
+  .status-dropdown:hover {
+    border-color: #007BFF;
+  }
+
+  .saved .card:hover {
+    border: 2px solid #B0B0B0;
+    border-top: 4px solid #B0B0B0;
+  }
+
+  .saved .card {
+    border-top: 4px solid #B0B0B0;
+  }
+
+  .applied .card:hover {
+    border: 2px solid #FFD700;
+    border-top: 4px solid #FFD700;
+  }
+
+  .applied .card {
+    border-top: 4px solid #FFD700;
+  }
+
+  .incontact .card:hover {
+    border: 2px solid #1E90FF;
+    border-top: 4px solid #1E90FF;
+  }
+
+  .incontact .card {
+    border-top: 4px solid #1E90FF;
+  }
+
+  .hired .card:hover {
+    border: 2px solid #32CD32;
+    border-top: 4px solid #32CD32;
+  }
+
+  .hired .card {
+    border-top: 4px solid #32CD32;
+  }
+
+  .rejected .card:hover {
+    border: 2px solid #FF4500;
+    border-top: 4px solid #FF4500;
+  }
+
+  .rejected .card {
+    border-top: 4px solid #FF4500;
+  }
+
+
+  .del {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .del:hover {
+    color: darkred;
+  }
+
+  .card > * {
+    margin: 0px;
+  }
+  
+  .card > * + * {
+    margin-top: 1.1em;
+  }
+  
+
+  .card > p {
+    margin: 0px;
+    width: fit-content;
+  }
+
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  .card .card__content {
+    color: #333;
+    font-size: 1rem;
+    margin: 0px;
+  } 
+  
+  .card .card__title {
+    padding: 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 90%;
+  }
+  
+  .status-dropdown {
+    margin: 0px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    padding-left: 0px;
+    font-size: 12px;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+    width: fit-content;
+    transform: translateX(-2px);
+  }
+
+  .status-dropdown:hover {
+    box-shadow: 0 0 5px #B0B0B0;
+  }
+
+  .card .card__date {
+    color: #6e6b80;
+    font-size: 0.8rem;
+    margin: 0px;
+  }
+  
+  .card svg {
+    transition: 0.2s;
+  }
+  
+
+  
+
+  .container {
+    max-width: 600px;
+    margin-top: 20px;
+  }
+  .form-container {
+    display: none;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+  }
+  .form-container div {
+    margin-bottom: 15px;
+  }
+  .form-container label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .form-container input, .form-container select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  .form-container button[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .form-container button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  .toggle-button {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #007BFF;
+    color: #EDEDED;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .toggle-button:hover {
+    background-color: #0056b3;
+  }
+
+  .edit-icon {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .save-icon {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .hidden {
+    display: none !important;
+  }
+
+
+.editable {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+#job_title, #company {
+  display: inline;
+}
+
+.edit-icon, .save-icon {
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+  color: #007BFF;
+  transition: color 0.3s ease;
+}
+
+.edit-icon:hover, .save-icon:hover {
+  color: #0056b3;
+}
+
+#company-input, #job_title-input {
+  display: inline-block;
+  padding: 8px 10px;
+  margin-left: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#company-input:focus, #job_title-input:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.back {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #EDEDED;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin: 20px;
+}
+
+.back:hover {
+  background-color: #0056b3;
+}
+
+.app-dropdown {
+  margin-top: 10px;
+  font-size: 17px;
+  transform: translateX(0px);
+}
+
+.app-page {
+  max-width: 50%;
+  margin: auto;
+}
+
+#job_title-input {
+  margin-left: 0px;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+#company-input {
+  margin-left: 0px;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+textarea {
+  width: 100%;
+  max-width: 600px;
+  height: fit-content;
+  padding: 10px;
+  border: 2px solid #007BFF;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: vertical; /* Allows vertical resizing */
+  outline: none; /* Removes default blue border on focus */
+  transition: border-color 0.3s ease;
+  resize: none;
+  overflow: hidden;
+  height: auto;
+}
+textarea:focus {
+  border-color: #0056b3;
+}
+
+#delete {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #EDEDED;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#delete:hover {
+  background-color: darkred;
+}
+
+.form-container2 {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #007BFF;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-button {
+  width: 100%;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+
+.form-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.form-link {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.form-link:hover {
+  text-decoration: underline;
+}
+
+/* Styling for flash messages */
+.flash-messages {
+  list-style: none;
+  padding: 0;
+}
+
+.flash-message {
+  background: #ffdddd;
+  color: #d8000c;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
