@@ -7,4 +7,4 @@ class Config:
     if 'DATABASE_URL' in os.environ:
         SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     else:
-        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+        SQLALCHEMY_DATABASE_URI = 'postgresql://' + os.path.join(basedir, 'app.db')

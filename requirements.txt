@@ -120,4 +120,3 @@ webencodings==0.5.1
 websocket-client==1.6.4
 Werkzeug==3.0.2
 gunicorn
-psycopg2
