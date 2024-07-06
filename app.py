@@ -11,7 +11,6 @@ app.config['SECRET_KEY'] = 'secret'  # Use environment variable for secret key
 
 # Configure the SQLAlchemy part of the app instance
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://udjh022agk9u8s:p79faf817b42bc76733b02696eba79c0b923d362c858e671066e6d00ed9e001b9@c5hilnj7pn10vb.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d5qjhdfn08fv98'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)  # Initialize SQLAlchemy instance
 
 # Define SQLAlchemy models for users and applications
