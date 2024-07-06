@@ -59,7 +59,7 @@
         <textarea id="notes-input" class="hidden"> {{application.notes}} </textarea>
     </div>
 
-    <a id="delete" href="{{ url_for('delete', application_id=application[0]) }}">Delete</a>
+    <a id="delete" href="{{ url_for('delete', application_id=application.id) }}">Delete</a>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/script.js"></script>

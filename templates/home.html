@@ -84,7 +84,7 @@
             <ul>
             {% for app in apps %}
             {% if app.status == "Saved" %}
-                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+                <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app.id) }}`;">
                     
                     <h4 class="card__title">{{ app.job_title }}</h4>
                     <h4 class="card__content"> {{ app.company }}</h4>
@@ -98,7 +98,7 @@
                     </select>
                     <p><a class="link" href="{{ app.link }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
                     <h4 class="card__date">{{ app.applied_on }}</h4>
-                    <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                    <p><a class="del" href="{{ url_for('delete', application_id=app.id) }}">&times;</a></p>
                 </li>
 
                     
@@ -111,9 +111,9 @@
             <h3 class="sec-title" id="applied">Applied</h3>
             <ul>
             {% for app in apps %}
-            {% if app[4] == "Applied" %}
+            {% if app.status == "Applied" %}
                 
-            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app.id) }}`;">
                     
                 <h4 class="card__title">{{ app.job_title }}</h4>
                 <h4 class="card__content"> {{ app.company }}</h4>
@@ -127,7 +127,7 @@
                 </select>
                 <p><a class="link" href="{{ app.link }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
                 <h4 class="card__date">{{ app.applied_on }}</h4>
-                <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                <p><a class="del" href="{{ url_for('delete', application_id=app.id) }}">&times;</a></p>
             </li>
 
                     
@@ -140,9 +140,9 @@
             <h3 class="sec-title" id="incontact">In Contact</h3>
             <ul>
             {% for app in apps %}
-            {% if app[4] == "In Contact" %}
+            {% if app.status == "In Contact" %}
                 
-            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app.id) }}`;">
                     
                 <h4 class="card__title">{{ app.job_title }}</h4>
                 <h4 class="card__content"> {{ app.company }}</h4>
@@ -156,7 +156,7 @@
                 </select>
                 <p><a class="link" href="{{ app.link }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
                 <h4 class="card__date">{{ app.applied_on }}</h4>
-                <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                <p><a class="del" href="{{ url_for('delete', application_id=app.id) }}">&times;</a></p>
             </li>
 
                     
@@ -169,9 +169,9 @@
             <h3 class="sec-title" id="hired">Hired</h3>
             <ul>
             {% for app in apps %}
-            {% if app[4] == "Hired" %}
+            {% if app.status == "Hired" %}
                 
-            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app.id) }}`;">
                     
                 <h4 class="card__title">{{ app.job_title }}</h4>
                 <h4 class="card__content"> {{ app.company }}</h4>
@@ -185,7 +185,7 @@
                 </select>
                 <p><a class="link" href="{{ app.link }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
                 <h4 class="card__date">{{ app.applied_on }}</h4>
-                <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                <p><a class="del" href="{{ url_for('delete', application_id=app.id) }}">&times;</a></p>
             </li>
 
                  
@@ -198,9 +198,9 @@
             <h3 class="sec-title" id="rejected">Rejected</h3>
             <ul>
             {% for app in apps %}
-            {% if app[4] == "Rejected" %}
+            {% if app.status == "Rejected" %}
                 
-            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app[0]) }}`;">
+            <li class="card" onclick="window.location.href=`{{ url_for('application', application_id=app.id) }}`;">
                     
                 <h4 class="card__title">{{ app.job_title }}</h4>
                 <h4 class="card__content"> {{ app.company }}</h4>
@@ -214,7 +214,7 @@
                 </select>
                 <p><a class="link" href="{{ app.link }}" target="_blank" onclick="event.stopPropagation()">Link</a></p>
                 <h4 class="card__date">{{ app.applied_on }}</h4>
-                <p><a class="del" href="{{ url_for('delete', application_id=app[0]) }}">&times;</a></p>
+                <p><a class="del" href="{{ url_for('delete', application_id=app.id) }}">&times;</a></p>
             </li>
 
                     
