@@ -7,31 +7,26 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Use environment variable for secret key
-# Ensure that the DATABASE_URL environment variable is set
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-if DATABASE_URL is None:
-    raise ValueError("No DATABASE_URL set for Flask application")
+app.config['SECRET_KEY'] = 'secret'  # Use environment variable for secret key
 
 # Configure the SQLAlchemy part of the app instance
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://udjh022agk9u8s:p79faf817b42bc76733b02696eba79c0b923d362c858e671066e6d00ed9e001b9@c5hilnj7pn10vb.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d5qjhdfn08fv98'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)  # Initialize SQLAlchemy instance
 
 # Define SQLAlchemy models for users and applications
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
+    password = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String(), unique=True, nullable=False)
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    job_title = db.Column(db.String(255), nullable=False)
-    company = db.Column(db.String(255), nullable=False)
-    status = db.Column(db.String(50), nullable=False)
+    job_title = db.Column(db.String(), nullable=False)
+    company = db.Column(db.String(), nullable=False)
+    status = db.Column(db.String(), nullable=False)
     applied_on = db.Column(db.Date, nullable=False)
     link = db.Column(db.Text)
     description = db.Column(db.Text)

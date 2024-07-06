@@ -35,6 +35,7 @@ fonttools==4.44.1
 fqdn==1.5.1
 google-auth==2.29.0
 graphviz==0.20.1
+gunicorn==22.0.0
 idna==3.4
 instaloader==4.11
 ipykernel==6.26.0
@@ -78,6 +79,7 @@ platformdirs==4.0.0
 prometheus-client==0.18.0
 prompt-toolkit==3.0.41
 psutil==5.9.6
+psycopg2-binary==2.9.9
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pyasn1==0.6.0
@@ -119,6 +121,4 @@ webcolors==1.13
 webencodings==0.5.1
 websocket-client==1.6.4
 Werkzeug==3.0.2
-gunicorn==20.0.4
-psycopg2==2.9.6
-psycopg2-binary
+wheel==0.43.0
