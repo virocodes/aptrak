@@ -6,6 +6,8 @@ from datetime import datetime
 import os
 
 DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
