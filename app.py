@@ -4,10 +4,36 @@ from db import add_user, get_user_by_name, add_application, get_applications_by_
 from werkzeug.security import check_password_hash
 import requests
 from urllib.parse import urlparse
+from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.secret_key = 'secret'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracker
+
 db = SQLAlchemy(app)
+
+# Define SQLAlchemy models
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+
+class Application(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    job_title = db.Column(db.String(255), nullable=False)
+    company = db.Column(db.String(255), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    applied_on = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    link = db.Column(db.Text)
+    description = db.Column(db.Text)
+    notes = db.Column(db.Text)
+
+    user = db.relationship('User', backref=db.backref('applications', lazy=True))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
