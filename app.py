@@ -110,7 +110,7 @@ def scrape():
     link = linkedinurl
     add_application(session['user_id'], position, company, status, link, description)
     apps = get_applications_by_user(session['user_id'])
-    return render_template('home.html', username=session['username'], apps=apps)
+    return url_for('home', username=session['username'], apps=apps)
 
 
 if __name__ == '__main__':
