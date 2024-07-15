@@ -59,6 +59,16 @@
         <textarea id="notes-input" class="hidden"> {{application.notes}} </textarea>
     </div>
 
+    <div>
+        <h2>Cover Letter Writer</h2>
+        <form method="post">
+            <label for="instructions">Instructions</label>
+            <input type="text" name="instructions" id="instructions">
+            <button type="submit">Generate</button>
+        </form>
+        <p id="written-instructions">{% if letter %} {{ letter }} {% endif %}</p>
+    </div>
+
     <a id="delete" href="{{ url_for('delete', application_id=application.id) }}">Delete</a>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

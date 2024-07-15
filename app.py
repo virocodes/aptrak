@@ -3,6 +3,12 @@ from db import add_user, get_user_by_name, add_application, get_applications_by_
 from werkzeug.security import check_password_hash
 import requests
 import os
+from openai import OpenAI
+
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get('OPENAI_KEY')
+)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'secret')
@@ -60,9 +66,16 @@ def home():
     else:
         return redirect(url_for('login'))
     
-@app.route('/application/<int:application_id>')
+@app.route('/application/<int:application_id>', methods=['GET', 'POST'])
 def application(application_id):
     application = get_application_by_id(application_id)
+
+    if request.method == 'POST':
+        instructions = request.form['instructions']
+        description = get_application_by_id(application_id).description
+        letter = gen_cover_letter(description, instructions)
+        if application and application.user_id == session['user_id']:
+            return render_template('application.html', application=application, letter=letter)
     if application and application.user_id == session['user_id']:
         return render_template('application.html', application=application)
     
@@ -112,6 +125,20 @@ def scrape():
     apps = get_applications_by_user(session['user_id'])
     return redirect(url_for('home'))
 
+
+def gen_cover_letter(desc, data):
+    prompt = f"Write a cover letter for the following job description: {desc} and follow these instructions: {data}"
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+    
+    return chat_completion.choices[0].message.content
 
 if __name__ == '__main__':
     app.run(debug=True)
