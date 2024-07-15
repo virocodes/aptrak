@@ -59,11 +59,11 @@
         <textarea id="notes-input" class="hidden"> {{application.notes}} </textarea>
     </div>
 
-    <div>
-        <h2>Cover Letter Writer</h2>
+    <div class="form-container3">
+        <h2 >Cover Letter Writer</h2>
         <form method="post">
             <label for="instructions">Instructions</label>
-            <input type="text" name="instructions" id="instructions">
+            <input type="text" name="instructions" id="instructions" class="form-input">
             <button type="submit">Generate</button>
         </form>
         <p id="written-instructions">{% if letter %} {{ letter }} {% endif %}</p>
