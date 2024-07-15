@@ -505,3 +505,27 @@ textarea:focus {
   margin: auto;
   text-align: center;
 }
+
+.form-container3 {
+  background: #fff;
+  padding: 2rem;
+  padding-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.form-container3 button {
+  margin-top: 10px;
+}
+
+.form-container3 h2 {
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+.form-container3 p {
+  height: fit-content;
+}
