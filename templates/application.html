@@ -38,7 +38,7 @@
         <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
     </select>
     <h4>{{ application.applied_on }}</h4>
-    <a href="{{ application.link }}" target="_blank">Link</a>
+    <a href="{{ application.link }}" class="link" target="_blank">Link</a>
 
 
     <h2>Description
@@ -46,7 +46,7 @@
         <span class="save-icon hidden" id="save-description" onclick="saveField('description', '{{ application.id }}')">&#10004;</span>
     </h2>
     <div>
-        <p id="description">{{ application.description.replace('\n', '<br>')|safe }}</p>
+        <p id="description">{% if application.description %} {{ application.description.replace('\n', '<br>')|safe }} {% else %}  Description... {% endif %}</p>
         <textarea id="description-input" class="hidden">{{ application.description }}</textarea>    
     </div>
     

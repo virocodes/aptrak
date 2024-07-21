@@ -41,6 +41,25 @@ nav > p > a {
     margin-right: 3%;
 }
 
+@media (max-width: 800px) {
+  .apps {
+    flex-direction: column;
+  }
+  .apps div {
+    width: 100%;
+  }
+  .card {
+    width: 90% !important;
+  }
+  .app-page {
+    margin: 10% !important;
+    max-width: 80% !important;
+  }
+  .form-container3 {
+    width: 80% !important;
+  }
+}
+
 .sec-title {
   border-bottom: 2.5px solid;
   width: fit-content;
@@ -429,7 +448,7 @@ textarea:focus {
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   margin: auto;
 }
@@ -513,7 +532,6 @@ textarea:focus {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 400px;
   margin: auto;
 }
 
