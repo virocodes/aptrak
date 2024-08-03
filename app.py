@@ -5,10 +5,10 @@ import requests
 import os
 from openai import OpenAI
 
-# client = OpenAI(
-#     # This is the default and can be omitted
-#     api_key=os.environ.get('OPENAI_KEY')
-# )
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get('OPENAI_KEY')
+)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'secret')
@@ -130,19 +130,19 @@ def scrape():
     return redirect(url_for('home'))
 
 
-# def gen_cover_letter(desc, data):
-#     prompt = f"Write a cover letter for the following job description: {desc} and follow these instructions: {data}"
-#     chat_completion = client.chat.completions.create(
-#         messages=[
-#             {
-#                 "role": "user",
-#                 "content": prompt,
-#             }
-#         ],
-#         model="gpt-3.5-turbo",
-#     )
+def gen_cover_letter(desc, data):
+    prompt = f"Write a cover letter for the following job description: {desc} and follow these instructions: {data}"
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
     
-#     return chat_completion.choices[0].message.content
+    return chat_completion.choices[0].message.content
 
 if __name__ == '__main__':
     app.run(debug=True)
