@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aptrak | login</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YENXGRDFW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YENXGRDFW');
+</script>
+<body>
+    <nav>
+        <h1><a href="{{ url_for('home') }}">aptrak</a></h1>
+        <p><a href="{{ url_for('login') }}">Login</a> <a href="{{ url_for('signup') }}">Signup</a></p>
+
+    </nav>
+    <main
+    style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+        <h1 style="font-size: 5rem; margin: 0px;">Welcome to <a href="{{ url_for('home') }}" style="color: #007BFF;">aptrak</a></h1>
+        <h1>The all in one management system for job applications</h1>
+        <video autoplay muted controls loop
+        style="width: 50%;">
+            <source src="/static/aptrak.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div style="">
+            <a href="{{ url_for('signup') }}" class="back" style="font-size: 30px;">Sign Up</a>
+        </div>
+    </main>
+    
+</body>
+</html>

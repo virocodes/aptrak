@@ -64,7 +64,7 @@ def home():
         apps = get_applications_by_user(session['user_id'])
         return render_template('home.html', username=session['username'], apps=apps)
     else:
-        return redirect(url_for('login'))
+        return render_template('landing.html')
     
 @app.route('/application/<int:application_id>', methods=['GET', 'POST'])
 def application(application_id):
